@@ -1,4 +1,5 @@
 # Atari Gauntlet
+OpenAI Gym environment that picks random Atari games. Powered by [Retro](https://github.com/openai/retro).
 
 ## Installation
 See https://retro.readthedocs.io/en/latest/getting_started.html#importing-roms
