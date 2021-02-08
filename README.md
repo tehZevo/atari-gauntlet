@@ -12,7 +12,8 @@ python3 -m retro.import /path/to/your/ROMs/directory
 AtariGauntlet(
   step_limit=1000, #number of steps to run each environment; defaults to None (infinite)
   obs_type="image", #observation type (image or ram); defaults to "image"
-  allowed_games=None #list of games to play (without "-Atari2600") or None for all
+  allowed_games=None, #list of games to play (without "-Atari2600") or None for all
+  pad_to=[256, 160] #pad image observations to this size for CNN sanity
 )
 ```
 

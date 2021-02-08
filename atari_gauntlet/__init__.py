@@ -7,7 +7,7 @@ import numpy as np
 #python3 -m retro.import /path/to/your/ROMs/directory
 
 class AtariGauntlet(gym.Env):
-  def __init__(self, step_limit=None, obs_type="image", allowed_games=None, debug=False):
+  def __init__(self, step_limit=None, obs_type="image", allowed_games=None, pad_to=[256, 160], debug=False):
     """allowed_games should be a list of games with "-Atari2600" removed or None for all games"""
     super().__init__()
     self.step_limit = step_limit
@@ -17,6 +17,7 @@ class AtariGauntlet(gym.Env):
     self.debug = debug
     #TODO: hardcoded scale (to match 0-1 obs space)
     self.obs_scale = lambda x: x / 255.0
+    pad_to = [250, 160] if pad_to is None else pad_to
 
     self.low = 0
     self.high = 1
@@ -27,7 +28,7 @@ class AtariGauntlet(gym.Env):
       self.games = [g for g in self.games if g.replace("-Atari2600", "").strip().lower() in allowed_games]
 
     if self.obs_type == retro.Observations.IMAGE:
-      self.observation_space = spaces.Box(shape=[250, 160, 3], low=self.low, high=self.high)
+      self.observation_space = spaces.Box(shape=[pad_to[0], pad_to[1], 3], low=self.low, high=self.high)
     else:
       self.observation_space = spaces.Box(shape=[128], low=self.low, high=self.high)
 
@@ -43,7 +44,7 @@ class AtariGauntlet(gym.Env):
 
     #fill to max size atari window to maintain consistent obs space
     if self.obs_type == retro.Observations.IMAGE:
-      new_state = np.zeros([250, 160, 3])
+      new_state = np.zeros(self.observation_space.shape)
       new_state[:state.shape[0], :state.shape[1]] = state
       state = new_state
 
