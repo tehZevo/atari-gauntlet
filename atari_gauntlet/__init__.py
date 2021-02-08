@@ -45,6 +45,7 @@ class AtariGauntlet(gym.Env):
     if self.obs_type == retro.Observations.IMAGE:
       new_state = np.zeros([250, 160, 3])
       new_state[:state.shape[0], :state.shape[1]] = state
+      state = new_state
 
     #transform state
     state = self.obs_scale(state)
